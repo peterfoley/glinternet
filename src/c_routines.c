@@ -15,9 +15,9 @@ void retrieve_beta(const double *restrict beta, const int *restrict groupSizes, 
     size = groupSizes[p];
     for (i=0; i<size; i++){
       if (fabs(beta[offset+i]) > eps){
-	memset(betaIdx+offset, 1, size * sizeof *betaIdx);
-	idx[p] = 1;
-	break;
+        memset(betaIdx+offset, 1, size * sizeof *betaIdx);
+        idx[p] = 1;
+        break;
       }
     }
     offset += size;
@@ -73,10 +73,10 @@ void initialize_beta(double *restrict beta, const double *restrict betaOld, cons
     for (p=0; p<pCat; p++){
       size = numLevels[catIndices[p]-1];
       if (pCatOld > 0){
-	match = bsearch(catIndices+p, catIndicesOld, pCatOld, sizeof *catIndicesOld, compare);
-	if (match != NULL){
-	  memcpy(beta+offset, betaOld+cumGroupSizes[match-catIndicesOld], size * sizeof *betaOld);
-	}
+        match = bsearch(catIndices+p, catIndicesOld, pCatOld, sizeof *catIndicesOld, compare);
+        if (match != NULL){
+          memcpy(beta+offset, betaOld+cumGroupSizes[match-catIndicesOld], size * sizeof *betaOld);
+        }
       }
       offset += size;
     }
@@ -84,10 +84,10 @@ void initialize_beta(double *restrict beta, const double *restrict betaOld, cons
   if (pCont > 0){
     for (p=0; p<pCont; p++){
       if (pContOld > 0){
-	match = bsearch(contIndices+p, contIndicesOld, pContOld, sizeof *contIndicesOld, compare);
-	if (match != NULL){
-	  beta[offset] = betaOld[cumGroupSizes[pCatOld + (match-contIndicesOld)]];
-	}
+        match = bsearch(contIndices+p, contIndicesOld, pContOld, sizeof *contIndicesOld, compare);
+        if (match != NULL){
+          beta[offset] = betaOld[cumGroupSizes[pCatOld + (match-contIndicesOld)]];
+        }
       }
       ++offset;
     }
@@ -96,12 +96,12 @@ void initialize_beta(double *restrict beta, const double *restrict betaOld, cons
     for (p=0; p<pCatCat; p+=2){
       size = numLevels[catcatIndices[p]-1] * numLevels[catcatIndices[p+1]-1];
       if (pCatCatOld > 0){
-	for (i=0; i<pCatCatOld; i+=2){
-	  if (match_pair(catcatIndices+p, catcatIndicesOld+i)){
-	    memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+i/2], size * sizeof *betaOld);
-	    break;
-	  }
-	}
+              for (i=0; i<pCatCatOld; i+=2){
+                if (match_pair(catcatIndices+p, catcatIndicesOld+i)){
+                  memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+i/2], size * sizeof *betaOld);
+                  break;
+                }
+              }
       }
       offset += size;
     }
@@ -109,12 +109,12 @@ void initialize_beta(double *restrict beta, const double *restrict betaOld, cons
   if (pContCont > 0){
     for (p=0; p<pContCont; p+=2){
       if (pContContOld > 0){
-	for (i=0; i<pContContOld; i+=2){
-	  if (match_pair(contcontIndices+p, contcontIndicesOld+i)){
-	    memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+(pCatCatOld+i)/2], 3 * sizeof *betaOld);
-	    break;
-	  }
-	}
+        for (i=0; i<pContContOld; i+=2){
+          if (match_pair(contcontIndices+p, contcontIndicesOld+i)){
+            memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+(pCatCatOld+i)/2], 3 * sizeof *betaOld);
+            break;
+          }
+        }
       }
       offset += 3;
     }
@@ -123,12 +123,12 @@ void initialize_beta(double *restrict beta, const double *restrict betaOld, cons
     for (p=0; p<pCatCont; p+=2){
       size = 2 * numLevels[catcontIndices[p]-1];
       if (pCatContOld > 0){
-	for (i=0; i<pCatContOld; i+=2){
-	  if (match_pair_catcont(catcontIndices+p, catcontIndicesOld+i)){
-	    memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+(pCatCatOld+pContContOld+i)/2], size * sizeof *betaOld);
-	    break;
-	  }
-	}
+        for (i=0; i<pCatContOld; i+=2){
+          if (match_pair_catcont(catcontIndices+p, catcontIndicesOld+i)){
+            memcpy(beta+offset, betaOld+cumGroupSizes[pCatOld+pContOld+(pCatCatOld+pContContOld+i)/2], size * sizeof *betaOld);
+            break;
+          }
+        }
       }
       offset += size;
     }
@@ -185,7 +185,7 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
     for (p=0; p<pCat; p++){
       size = numLevels[catIndices[p]-1];
       for (i=0; i<size; i++){
-	result[offset + i] /= factor;
+        result[offset + i] /= factor;
       }
       offset += size;
     }
@@ -196,8 +196,8 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
       mean = 0.0;
       norm = 0.0;
       for (i=0; i<n; i++){
-	mean += zOffsetPtr[i];
-	norm += zOffsetPtr[i]*zOffsetPtr[i];
+        mean += zOffsetPtr[i];
+        norm += zOffsetPtr[i]*zOffsetPtr[i];
       }
       mean /= n;
       norm = (fabs(norm) > 1e-30) ? sqrt(norm-n*pow(mean, 2)) : 1.0;
@@ -211,7 +211,7 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
     for (p=0; p<pCatCat; p+=2){
       size = numLevels[catcatIndices[p]-1] * numLevels[catcatIndices[p+1]-1];
       for (i=0; i<size; i++){
-	result[offset + i] /= factor;
+        result[offset + i] /= factor;
       }
       offset += size;
     }
@@ -226,10 +226,10 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
       zOffsetPtr = z + (contcontIndices[p+1]-1)*n;
       mean = norm = meanZ = normZ = 0.0;
       for (i=0; i<n; i++){
-	mean += wOffsetPtr[i];
-	norm += wOffsetPtr[i]*wOffsetPtr[i];
-	meanZ += zOffsetPtr[i];
-	normZ += zOffsetPtr[i]*zOffsetPtr[i];
+        mean += wOffsetPtr[i];
+        norm += wOffsetPtr[i]*wOffsetPtr[i];
+        meanZ += zOffsetPtr[i];
+        normZ += zOffsetPtr[i]*zOffsetPtr[i];
       }
       mean /= n;
       meanZ /= n;
@@ -240,9 +240,9 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
       result[0] -= mean*result[offset] + meanZ*result[offset+1];
       meanProduct = normProduct = 0.0;
       for (i=0; i<n; i++){
-	product[i] = (wOffsetPtr[i]-mean) * (zOffsetPtr[i]-meanZ) / (norm*normZ);
-	meanProduct += product[i];
-	normProduct += product[i]*product[i];
+        product[i] = (wOffsetPtr[i]-mean) * (zOffsetPtr[i]-meanZ) / (norm*normZ);
+        meanProduct += product[i];
+        normProduct += product[i]*product[i];
       }
       meanProduct /= n;
       normProduct = (fabs(normProduct) > 1e-30) ? sqrt(normProduct - n*pow(meanProduct, 2)) : 1.0;
@@ -264,14 +264,14 @@ void rescale_beta(int *restrict x, double *restrict z, const int *restrict nRows
       size = numLevels[catcontIndices[p]-1];
       mean = norm = 0.0;
       for (i=0; i<n; i++){
-	mean += zOffsetPtr[i];
-	norm += zOffsetPtr[i]*zOffsetPtr[i];
+        mean += zOffsetPtr[i];
+        norm += zOffsetPtr[i]*zOffsetPtr[i];
       }
       mean /= n;
       norm = (fabs(norm) > 1e-30) ? sqrt(norm - n*pow(mean, 2)) : 1.0;
       for (i=0; i<size; i++){
-	result[offset+size+i] /= (factor*norm);
-	result[offset+i] = result[offset+i]/factor1 - mean*result[offset+size+i];
+        result[offset+size+i] /= (factor*norm);
+        result[offset+i] = result[offset+i]/factor1 - mean*result[offset+size+i];
       }
       offset += 2*size;
     }
@@ -323,7 +323,7 @@ void x_times_rescaled_beta(int *restrict x, double *restrict z, const double *re
       size = numLevels[catIndices[p]-1];
       xOffsetPtr = x + (catIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i]];
+        result[i] += beta[offset + xOffsetPtr[i]];
       }
       offset += size;
     }
@@ -332,7 +332,7 @@ void x_times_rescaled_beta(int *restrict x, double *restrict z, const double *re
     for (p=0; p<pCont; p++){
       zOffsetPtr = z + (contIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += zOffsetPtr[i] * beta[offset];
+        result[i] += zOffsetPtr[i] * beta[offset];
       }
       ++offset;
     }
@@ -344,7 +344,7 @@ void x_times_rescaled_beta(int *restrict x, double *restrict z, const double *re
       xOffsetPtr = x + (catcatIndices[p]-1)*n;
       yOffsetPtr = x + (catcatIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i] + size*yOffsetPtr[i]];
+        result[i] += beta[offset + xOffsetPtr[i] + size*yOffsetPtr[i]];
       }
       offset += size * numLevels[catcatIndices[p+1]-1];
     }
@@ -355,7 +355,7 @@ void x_times_rescaled_beta(int *restrict x, double *restrict z, const double *re
       wOffsetPtr = z + (contcontIndices[p]-1)*n;
       zOffsetPtr = z + (contcontIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += wOffsetPtr[i]*beta[offset] + zOffsetPtr[i]*beta[offset+1] + wOffsetPtr[i]*zOffsetPtr[i]*beta[offset+2];
+        result[i] += wOffsetPtr[i]*beta[offset] + zOffsetPtr[i]*beta[offset+1] + wOffsetPtr[i]*zOffsetPtr[i]*beta[offset+2];
       }
       offset += 3;
     }
@@ -366,12 +366,12 @@ void x_times_rescaled_beta(int *restrict x, double *restrict z, const double *re
       xOffsetPtr = x + (catcontIndices[p]-1)*n;
       zOffsetPtr = z + (catcontIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i]] + zOffsetPtr[i]*beta[offset + size + xOffsetPtr[i]];
+        result[i] += beta[offset + xOffsetPtr[i]] + zOffsetPtr[i]*beta[offset + size + xOffsetPtr[i]];
       }
       offset += 2*size;
     }
   }
-}	
+}        
 
 SEXP R_x_times_rescaled_beta(SEXP R_x, SEXP R_z, SEXP R_beta, SEXP R_nRows, SEXP R_nVars, SEXP R_numLevels, SEXP R_catIndices, SEXP R_contIndices, SEXP R_catcatIndices, SEXP R_contcontIndices, SEXP R_catcontIndices, SEXP R_result){
   PROTECT(R_x = coerceVector(R_x, INTSXP));

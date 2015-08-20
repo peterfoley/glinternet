@@ -22,18 +22,18 @@ void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, in
       /* check if beta for this variable is all zero. If so, move on */
       allzero = 1;
       for (i=0; i<nLevels; i++){
-	if (fabs(beta[offset + i]) > eps){
-	  allzero = 0;
-	  break;
-	}
+        if (fabs(beta[offset + i]) > eps){
+          allzero = 0;
+          break;
+        }
       }
       if (allzero){
-	offset += nLevels;
-	continue;
+        offset += nLevels;
+        continue;
       }
       xOffsetPtr = x + (catIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i]] / factor;
+        result[i] += beta[offset + xOffsetPtr[i]] / factor;
       }
       offset += nLevels;
     }
@@ -43,12 +43,12 @@ void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, in
     for (p=0; p<pCont; p++){
       /* check if beta is zero */
       if (fabs(beta[offset]) < eps){
-	++offset;
-	continue;
+        ++offset;
+        continue;
       }
       zOffsetPtr = z + (contIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += zOffsetPtr[i] * beta[offset];
+        result[i] += zOffsetPtr[i] * beta[offset];
       }
       ++offset;
     }
@@ -64,19 +64,19 @@ void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, in
       /* check if beta is zero */
       allzero = 1;
       for (i=0; i<len; i++){
-	if (fabs(beta[offset + i]) > eps){
-	  allzero = 0;
-	  break;
-	}
+        if (fabs(beta[offset + i]) > eps){
+          allzero = 0;
+          break;
+        }
       }
       if (allzero){
-	offset += len;
-	continue;
+        offset += len;
+        continue;
       }
       xOffsetPtr = x + (catcatIndices[p]-1)*n;
       yOffsetPtr = x + (catcatIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i] + nLevels*yOffsetPtr[i]] / factor;
+        result[i] += beta[offset + xOffsetPtr[i] + nLevels*yOffsetPtr[i]] / factor;
       }
       offset += len;
     }
@@ -91,30 +91,30 @@ void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, in
       /* check if beta is zero */
       allzero = 1;
       for (i=0; i<3; i++){
-	if (fabs(beta[offset + i]) > eps){
-	  allzero = 0;
-	  break;
-	}
+        if (fabs(beta[offset + i]) > eps){
+          allzero = 0;
+          break;
+        }
       }
       if (allzero){
-	offset += 3;
-	continue;
+        offset += 3;
+        continue;
       }
       wOffsetPtr = z + (contcontIndices[p]-1)*n;
       zOffsetPtr = z + (contcontIndices[p+1]-1)*n;
       mean = norm = 0.0;
       for (i=0; i<n; i++){
-	result[i] += (wOffsetPtr[i]*beta[offset] + zOffsetPtr[i]*beta[offset+1]) / factor;
-	product[i] = wOffsetPtr[i] * zOffsetPtr[i];
-	mean += product[i];
-	norm += product[i]*product[i];
+        result[i] += (wOffsetPtr[i]*beta[offset] + zOffsetPtr[i]*beta[offset+1]) / factor;
+        product[i] = wOffsetPtr[i] * zOffsetPtr[i];
+        mean += product[i];
+        norm += product[i]*product[i];
       }
       if (norm > 0){
-	mean /= n;
-	norm = sqrt(3 * (norm-n*pow(mean, 2)));
-	for (i=0; i<n; i++){
-	  result[i] += (product[i]-mean) * beta[offset+2] / norm;
-	}
+        mean /= n;
+        norm = sqrt(3 * (norm-n*pow(mean, 2)));
+        for (i=0; i<n; i++){
+          result[i] += (product[i]-mean) * beta[offset+2] / norm;
+        }
       }
       offset += 3;
     }
@@ -129,20 +129,20 @@ void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, in
       /* check if beta is zero */
       allzero = 1;
       for (i=0; i<2*nLevels; i++){
-	if (fabs(beta[offset + i]) > eps){
-	  allzero = 0;
-	  break;
-	}
+        if (fabs(beta[offset + i]) > eps){
+          allzero = 0;
+          break;
+        }
       }
       if (allzero){
-	offset += 2*nLevels;
-	continue;
+        offset += 2*nLevels;
+        continue;
       }
       xOffsetPtr = x + (catcontIndices[p]-1)*n;
       zOffsetPtr = z + (catcontIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	result[i] += beta[offset + xOffsetPtr[i]] / factor;
-	result[i] += zOffsetPtr[i] * beta[offset + nLevels + xOffsetPtr[i]] / factorZ;
+        result[i] += beta[offset + xOffsetPtr[i]] / factor;
+        result[i] += zOffsetPtr[i] * beta[offset + nLevels + xOffsetPtr[i]] / factorZ;
       }
       offset += 2*nLevels;
     }
@@ -203,7 +203,7 @@ void compute_gradient(int *restrict x, double *restrict z, double *restrict r, i
     for (p=0; p<pCat; p++){
       xOffsetPtr = x + (catIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	gradient[offset + xOffsetPtr[i]] += r[i];
+        gradient[offset + xOffsetPtr[i]] += r[i];
       }
       offset += numLevels[catIndices[p]-1];
     }
@@ -216,7 +216,7 @@ void compute_gradient(int *restrict x, double *restrict z, double *restrict r, i
     for (p=0; p<pCont; p++){
       zOffsetPtr = z + (contIndices[p]-1)*n;
       for (i=0; i<n; i++){
-	gradient[offset] += zOffsetPtr[i] * r[i];
+        gradient[offset] += zOffsetPtr[i] * r[i];
       }
       ++offset;
     }
@@ -231,7 +231,7 @@ void compute_gradient(int *restrict x, double *restrict z, double *restrict r, i
       yOffsetPtr = x + (catcatIndices[p+1]-1)*n;
       nLevels = numLevels[catcatIndices[p]-1];
       for (i=0; i<n; i++){
-	gradient[offset + xOffsetPtr[i] + nLevels*yOffsetPtr[i]] += r[i];
+        gradient[offset + xOffsetPtr[i] + nLevels*yOffsetPtr[i]] += r[i];
       }
       offset += nLevels * numLevels[catcatIndices[p+1]-1];
     }
@@ -249,24 +249,24 @@ void compute_gradient(int *restrict x, double *restrict z, double *restrict r, i
       wOffsetPtr = z + (contcontIndices[p]-1)*n;
       zOffsetPtr = z + (contcontIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	gradient[offset] += wOffsetPtr[i] * r[i];
-	gradient[offset + 1] += zOffsetPtr[i] * r[i];
+        gradient[offset] += wOffsetPtr[i] * r[i];
+        gradient[offset + 1] += zOffsetPtr[i] * r[i];
       }
       gradient[offset] /= factor;
       gradient[offset + 1] /= factor;
       mean = norm = 0.0;
       for (i=0; i<n; i++){
-	product[i] = wOffsetPtr[i] * zOffsetPtr[i];
-	mean += product[i];
-	norm += product[i]*product[i];
+        product[i] = wOffsetPtr[i] * zOffsetPtr[i];
+        mean += product[i];
+        norm += product[i]*product[i];
       }
       if (norm > 0){
-	mean /= n;
-	norm = sqrt(3 * (norm-n*pow(mean, 2)));
-	for (i=0; i<n; i++){
-	  gradient[offset + 2] += (product[i]-mean) * r[i];
-	}
-	  gradient[offset + 2] /= norm;
+        mean /= n;
+        norm = sqrt(3 * (norm-n*pow(mean, 2)));
+        for (i=0; i<n; i++){
+          gradient[offset + 2] += (product[i]-mean) * r[i];
+        }
+          gradient[offset + 2] /= norm;
       }
       offset += 3;
     }
@@ -282,14 +282,14 @@ void compute_gradient(int *restrict x, double *restrict z, double *restrict r, i
       xOffsetPtr = x + (catcontIndices[p]-1)*n;
       zOffsetPtr = z + (catcontIndices[p+1]-1)*n;
       for (i=0; i<n; i++){
-	gradient[offset + xOffsetPtr[i]] += r[i];
-	gradient[offset + nLevels + xOffsetPtr[i]] += zOffsetPtr[i] *r[i];
+        gradient[offset + xOffsetPtr[i]] += r[i];
+        gradient[offset + nLevels + xOffsetPtr[i]] += zOffsetPtr[i] *r[i];
       }
       for (i=offset; i<offset+nLevels; i++){
-	gradient[i] /= factor;
+        gradient[i] /= factor;
       }
       for (i=offset+nLevels; i<offset+2*nLevels; i++){
-	gradient[i] /= factorZ;
+        gradient[i] /= factorZ;
       }
       offset += 2*nLevels;
     }
@@ -398,8 +398,8 @@ int check_convergence(const double *restrict beta, const double *restrict gradie
     allzero = 1;
     for (j=0; j<size; j++){
       if (fabs(beta[offset+j]) > eps){
-	allzero = 0;
-	break;
+        allzero = 0;
+        break;
       }
     }
     norm = 0.0;
@@ -458,16 +458,16 @@ void update_intercept(const double *restrict y, const int *restrict nRows, const
     while (iter<1000 && fabs(f)>1e-2){
       fPrime = 0.0;
       for (i=0; i<n; i++){
-	sum = mu + linear[i];
-	fPrime -= (sum > xmax || sum < xmin) ? 0.0 : temp[i]/pow(1+temp[i], 2);
+        sum = mu + linear[i];
+        fPrime -= (sum > xmax || sum < xmin) ? 0.0 : temp[i]/pow(1+temp[i], 2);
       }
       mu -= f/fPrime;
       expMu = exp(-mu);
       f = sumY;
       for (i=0; i<n; i++){
-	temp[i] = expMu * exponent[i];
-	sum = mu + linear[i];
-	f -= sum > xmax ? 1.0 : (sum < xmin ? 0.0 : 1/(1+temp[i]));
+        temp[i] = expMu * exponent[i];
+        sum = mu + linear[i];
+        f -= sum > xmax ? 1.0 : (sum < xmin ? 0.0 : 1/(1+temp[i]));
       }
       ++iter;
     }
